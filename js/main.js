@@ -1,2 +1,1 @@
-import './data.js';
-// import { createAnotherObjects } from './data.js';
+import './thumbpicture.js';
