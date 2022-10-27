@@ -1,11 +1,11 @@
-import { getRandomPositiveNumber } from './utils';
+import { getRandomPositiveNumber } from './utils.js';
 
 const dataArray = [];
 const numberElemets = 25;
 
 
 const id = [];
-const fillId = function () {
+const fillId = () => {
   for (let i = 1; i <= numberElemets; i++) {
     id.push(i);
   }
@@ -14,7 +14,7 @@ const fillId = function () {
 fillId();
 
 const url = [];
-const fillUrl = function() {
+const fillUrl = () => {
   for(let i = 1; i <= numberElemets; i++) {
     url.push(`photos/${ i }.jpg`);
   }
@@ -45,7 +45,7 @@ const description = [
   'Паутинки эти — мы.',
 ];
 
-const createObject = function () {
+const createObject = () => {
   const j = getRandomPositiveNumber(0, id.length - 1);
   const k = getRandomPositiveNumber(0, url.length - 1);
   const object = {
@@ -60,7 +60,7 @@ const createObject = function () {
   return object;
 };
 
-const createAnotherObjects = function () {
+const createAnotherObjects = () => {
   for (let i = 0; i <= numberElemets - 1; i++) {
     dataArray.push(createObject());
   }
