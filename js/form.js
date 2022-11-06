@@ -1,5 +1,5 @@
 import { isEscapeKey } from './utils.js';
-import {delClass, filters, valueIncrease, valueDecrease} from './editImage.js';
+import {deleteClass, chooseFilters, onValueIncreaseClick, onValueDecreaseClick} from './editImage.js';
 
 const body = document.querySelector('body');
 const uploadForm = document.querySelector('.img-upload__form');
@@ -13,37 +13,37 @@ const trueImage = imgUploadPreview.querySelector('img');
 const onLoadModalEscKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    closeloadModal();
+    closeLoadModal();
   }
 };
 
-function openloadModal () {
+function openLoadModal () {
   uploadForm.addEventListener('change', () => {
     body.classList.add('modal-open');
     loadModal.classList.remove('hidden');
-    filters();
-    scaleControlBigger.addEventListener('click', valueIncrease);
-    scaleControlSmaller.addEventListener('click', valueDecrease);
+    chooseFilters();
+    scaleControlBigger.addEventListener('click', onValueIncreaseClick);
+    scaleControlSmaller.addEventListener('click', onValueDecreaseClick);
     document.addEventListener('keydown', onLoadModalEscKeydown);
   });
 }
 
-function closeloadModal () {
+function closeLoadModal () {
   body.classList.remove('modal-open');
   loadModal.classList.add('hidden');
-  delClass();
+  deleteClass();
   uploadForm.reset();
   trueImage .style.scale = 1;
   document.removeEventListener('keydown', onLoadModalEscKeydown);
-  scaleControlBigger.removeEventListener('click', valueIncrease);
-  scaleControlSmaller.removeEventListener('click', valueDecrease);
+  scaleControlBigger.removeEventListener('click', onValueIncreaseClick);
+  scaleControlSmaller.removeEventListener('click', onValueDecreaseClick);
 }
 
 modalCloseButton.addEventListener('click', () => {
-  closeloadModal();
+  closeLoadModal();
 });
 
-openloadModal();
-closeloadModal();
+openLoadModal();
+closeLoadModal();
 
-export {openloadModal, closeloadModal};
+export {openLoadModal, closeLoadModal};

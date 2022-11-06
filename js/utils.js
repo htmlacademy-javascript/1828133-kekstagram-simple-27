@@ -25,7 +25,8 @@ checkStringLength('', 140);
 
 // Данная функция проверяет нажималась кнопка Escape или нет. Если нажималась кнопка Escape возвращет тру.
 
-const isEscapeKey = (evt) => evt.key === 'Escape';
+const escapeButton = 'Escape';
+const isEscapeKey = (evt) => evt.key === escapeButton;
 
 
 export{getRandomPositiveNumber, isEscapeKey};
