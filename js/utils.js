@@ -1,3 +1,5 @@
+const ESCAPE_BUTTON = 'Escape';
+
 // Данная функция возвращаает случайное целое число из переданного диапазона включительно. Аргументами функции могут быть только положительные числа и ноль. Если функции ввести не числа(неправильные аргументы), она должна вернёт NaN
 function getRandomPositiveNumber(a, b) {
   if (typeof a !== 'number' || typeof b !== 'number' || a < 0 || b < 0) {
@@ -25,7 +27,8 @@ checkStringLength('', 140);
 
 // Данная функция проверяет нажималась кнопка Escape или нет. Если нажималась кнопка Escape возвращет тру.
 
-const isEscapeKey = (evt) => evt.key === 'Escape';
+
+const isEscapeKey = (evt) => evt.key === ESCAPE_BUTTON;
 
 
 export{getRandomPositiveNumber, isEscapeKey};
