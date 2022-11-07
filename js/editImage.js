@@ -1,3 +1,6 @@
+const MAX_SIZE = '100%';
+const MIN_SIZE = '25%';
+
 const uploadForm = document.querySelector('.img-upload__form');
 const loadModal = uploadForm.querySelector('.img-upload__overlay');
 
@@ -12,16 +15,18 @@ const buttonEffectMarvin = document.getElementById('effect-marvin');
 const buttonEffectPhobos = document.getElementById('effect-phobos');
 const buttonEffectHeat = document.getElementById('effect-heat');
 
-const maxSize = '100%';
-const minSize = '25%';
-
 const deleteClass = () => {
   trueImg.classList.remove('effects__preview--chrome', 'effects__preview--sepia', 'effects__preview--marvin', 'effects__preview--phobos', 'effects__preview--heat');
+};
+
+const deleteFilters = () => {
+  trueImg .style.filter = 'none';
 };
 
 const addEffectNone = () => {
   buttonEffectNone.addEventListener('click', () => {
     deleteClass();
+    deleteFilters();
   });
 };
 
@@ -61,7 +66,7 @@ const addEffectHeat = () => {
 };
 
 const onValueIncreaseClick = () => {
-  if (scaleControlValue.value !== maxSize) {
+  if (scaleControlValue.value !== MAX_SIZE) {
     scaleControlValue.value = `${String(Number(scaleControlValue.value.replace(/\D/g, '')) + 25) }%`;
   }
   trueImg.style.scale = Number(scaleControlValue.value.replace(/\D/g, '')) / 100;
@@ -69,7 +74,7 @@ const onValueIncreaseClick = () => {
 
 
 const onValueDecreaseClick = () => {
-  if (scaleControlValue.value !== minSize) {
+  if (scaleControlValue.value !== MIN_SIZE) {
     scaleControlValue.value = `${String(Number(scaleControlValue.value.replace(/\D/g, '')) - 25) }%`;
   }
   trueImg.style.scale = Number(scaleControlValue.value.replace(/\D/g, '')) / 100;
@@ -84,4 +89,4 @@ const chooseFilters = () => {
   addEffectHeat ();
 };
 
-export {deleteClass, chooseFilters, onValueIncreaseClick, onValueDecreaseClick};
+export {deleteClass, deleteFilters, chooseFilters, onValueIncreaseClick, onValueDecreaseClick};
