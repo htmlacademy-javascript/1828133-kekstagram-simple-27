@@ -65,11 +65,16 @@ const addEffectHeat = () => {
   });
 };
 
+const trueImgScale = () => {
+  trueImg.style.scale = Number(scaleControlValue.value.replace(/\D/g, '')) / 100;
+};
+
 const onValueIncreaseClick = () => {
   if (scaleControlValue.value !== MAX_SIZE) {
     scaleControlValue.value = `${String(Number(scaleControlValue.value.replace(/\D/g, '')) + 25) }%`;
   }
-  trueImg.style.scale = Number(scaleControlValue.value.replace(/\D/g, '')) / 100;
+  // trueImg.style.scale = Number(scaleControlValue.value.replace(/\D/g, '')) / 100;
+  trueImgScale();
 };
 
 
@@ -77,7 +82,8 @@ const onValueDecreaseClick = () => {
   if (scaleControlValue.value !== MIN_SIZE) {
     scaleControlValue.value = `${String(Number(scaleControlValue.value.replace(/\D/g, '')) - 25) }%`;
   }
-  trueImg.style.scale = Number(scaleControlValue.value.replace(/\D/g, '')) / 100;
+  // trueImg.style.scale = Number(scaleControlValue.value.replace(/\D/g, '')) / 100;
+  trueImgScale();
 };
 
 const chooseFilters = () => {

@@ -1,9 +1,11 @@
 import { isEscapeKey } from './utils.js';
 import {deleteClass, deleteFilters, chooseFilters, onValueIncreaseClick, onValueDecreaseClick} from './editImage.js';
 import {createSlider, updateSlider, deleteSlider} from './slider.js';
+import {showSuccessMessage, showErrorMessage} from './uploadMessages.js';
 
 const body = document.querySelector('body');
 const uploadForm = document.querySelector('.img-upload__form');
+const uploadInput = uploadForm.querySelector('.img-upload__input');
 const molalOpenButton = uploadForm.querySelector('.img-upload__control');
 const loadModal = uploadForm.querySelector('.img-upload__overlay');
 const scaleControlSmaller = loadModal.querySelector('.scale__control--smaller');
@@ -20,7 +22,7 @@ const onLoadModalEscKeydown = (evt) => {
 };
 
 function openLoadModal () {
-  uploadForm.addEventListener('change', () => {
+  uploadInput.addEventListener('change', () => {
     body.classList.add('modal-open');
     loadModal.classList.remove('hidden');
     chooseFilters();
@@ -39,9 +41,9 @@ molalOpenButton.addEventListener('click', () => {
 function closeLoadModal () {
   body.classList.remove('modal-open');
   loadModal.classList.add('hidden');
+  deleteSlider();
   deleteClass();
   deleteFilters();
-  deleteSlider();
   uploadForm.reset();
   trueImage .style.scale = 1;
   document.removeEventListener('keydown', onLoadModalEscKeydown);
@@ -52,3 +54,32 @@ function closeLoadModal () {
 modalCloseButton.addEventListener('click', () => {
   closeLoadModal();
 });
+
+const setUploadFormSubmit = () => {
+  uploadForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const formData = new FormData(evt.target);
+
+    fetch (
+      'https://27.javascript.pages.academy/kekstagram-simple',
+      {
+        method: 'POST',
+        body: formData,
+      },
+    ).then((response) => {
+      if (response.ok) {
+        closeLoadModal();
+        showSuccessMessage();
+        return(response);
+      }
+      throw new Error(`${response.status} — ${response.statusText}`);
+    })
+      .catch((error) => {
+        // eslint-disable-next-line no-console
+        console.log(error);
+        showErrorMessage();
+      });
+  });
+};
+
+export {setUploadFormSubmit};
