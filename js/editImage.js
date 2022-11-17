@@ -16,7 +16,7 @@ const buttonEffectPhobos = document.getElementById('effect-phobos');
 const buttonEffectHeat = document.getElementById('effect-heat');
 
 const deleteClass = () => {
-  trueImg.classList.remove('effects__preview--chrome', 'effects__preview--sepia', 'effects__preview--marvin', 'effects__preview--phobos', 'effects__preview--heat');
+  trueImg.removeAttribute('class');
 };
 
 const deleteFilters = () => {
@@ -65,11 +65,15 @@ const addEffectHeat = () => {
   });
 };
 
+const setTrueImgScale = () => {
+  trueImg.style.scale = Number(scaleControlValue.value.replace(/\D/g, '')) / 100;
+};
+
 const onValueIncreaseClick = () => {
   if (scaleControlValue.value !== MAX_SIZE) {
     scaleControlValue.value = `${String(Number(scaleControlValue.value.replace(/\D/g, '')) + 25) }%`;
   }
-  trueImg.style.scale = Number(scaleControlValue.value.replace(/\D/g, '')) / 100;
+  setTrueImgScale();
 };
 
 
@@ -77,7 +81,7 @@ const onValueDecreaseClick = () => {
   if (scaleControlValue.value !== MIN_SIZE) {
     scaleControlValue.value = `${String(Number(scaleControlValue.value.replace(/\D/g, '')) - 25) }%`;
   }
-  trueImg.style.scale = Number(scaleControlValue.value.replace(/\D/g, '')) / 100;
+  setTrueImgScale();
 };
 
 const chooseFilters = () => {
