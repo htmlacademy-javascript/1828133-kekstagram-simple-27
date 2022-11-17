@@ -1,10 +1,7 @@
-// import { createAnotherObjects } from './data.js';
-
 const pictures = document.querySelector('.pictures');
 const similarPictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const picturesFragment = document.createDocumentFragment();
 
-// const similarPictures = createAnotherObjects();
 const renderPhotos = (photos) => {
 
   photos.forEach(({url, likes, description}) => {

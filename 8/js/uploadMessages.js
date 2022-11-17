@@ -5,20 +5,20 @@ const successUploadTemplate = document.querySelector('#success').content.querySe
 const errorUploadTemplate = document.querySelector('#error').content.querySelector('.error');
 const fragment = document.createDocumentFragment();
 
-const closeSuccessMessage = () => {
+const CloseSuccessMessage = () => {
   const successBanner = document.querySelector('.success');
   const closeSuccessButton = document.querySelector('.success__button');
   document.body.removeChild(successBanner);
-  closeSuccessButton.removeEventListener('click', closeSuccessMessage);
+  closeSuccessButton.removeEventListener('click', CloseSuccessMessage);
   document.removeEventListener('keydown', onSuccessBannerKeydown);
-  document.removeEventListener('click', closeSuccessMessage);
+  document.removeEventListener('click', CloseSuccessMessage);
 };
 
-// Тут сделал функцию а не конст, чтобы "всплыла наверх в closeSuccessMessage"
+// Тут сделал функцию а не конст, чтобы "всплыла наверх в CloseSuccessMessage"
 function onSuccessBannerKeydown (evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    closeSuccessMessage();
+    CloseSuccessMessage();
   }
 }
 
@@ -27,9 +27,9 @@ const showSuccessMessage = () => {
   fragment.appendChild(successUploadMessage);
   body.appendChild(fragment);
   const closeSuccessButton = document.querySelector('.success__button');
-  closeSuccessButton.addEventListener('click', closeSuccessMessage);
+  closeSuccessButton.addEventListener('click', CloseSuccessMessage);
   document.addEventListener('keydown', onSuccessBannerKeydown);
-  document.addEventListener('click', closeSuccessMessage);
+  document.addEventListener('click', CloseSuccessMessage);
 };
 
 const closeErrorMessage = () => {
@@ -41,7 +41,7 @@ const closeErrorMessage = () => {
   document.removeEventListener('click', closeErrorMessage);
 };
 
-// Тут сделал функцию а не конст, чтобы "всплыла наверх в closeSuccessMessage"
+// Тут сделал функцию а не конст, чтобы "всплыла наверх в CloseErrorMessage"
 function onErrorBannerKeydown (evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
