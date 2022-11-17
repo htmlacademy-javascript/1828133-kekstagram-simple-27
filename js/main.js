@@ -3,7 +3,7 @@ import './form.js';
 import './editImage.js';
 import './slider.js';
 import {renderPhotos} from './thumbpicture.js';
-import {showloadError} from './utils.js';
+import {showLoadError} from './utils.js';
 import {setUploadFormSubmit} from './form.js';
 
 
@@ -21,7 +21,5 @@ fetch('https://27.javascript.pages.academy/kekstagram-simple/data')
     renderPhotos(photos);
   })
   .catch((error) => {
-    showloadError(error);
-    // eslint-disable-next-line no-console
-    console.log(error);
+    showLoadError(error);
   });

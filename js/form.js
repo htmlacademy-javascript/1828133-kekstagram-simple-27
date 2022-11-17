@@ -6,7 +6,6 @@ import {showSuccessMessage, showErrorMessage} from './uploadMessages.js';
 const body = document.querySelector('body');
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadInput = uploadForm.querySelector('.img-upload__input');
-const molalOpenButton = uploadForm.querySelector('.img-upload__control');
 const loadModal = uploadForm.querySelector('.img-upload__overlay');
 const scaleControlSmaller = loadModal.querySelector('.scale__control--smaller');
 const scaleControlBigger = loadModal.querySelector('.scale__control--bigger');
@@ -21,21 +20,15 @@ const onLoadModalEscKeydown = (evt) => {
   }
 };
 
-function openLoadModal () {
-  uploadInput.addEventListener('change', () => {
-    body.classList.add('modal-open');
-    loadModal.classList.remove('hidden');
-    chooseFilters();
-    createSlider();
-    updateSlider();
-    scaleControlBigger.addEventListener('click', onValueIncreaseClick);
-    scaleControlSmaller.addEventListener('click', onValueDecreaseClick);
-    document.addEventListener('keydown', onLoadModalEscKeydown);
-  });
-}
-
-molalOpenButton.addEventListener('click', () => {
-  openLoadModal();
+uploadInput.addEventListener('change', () => {
+  body.classList.add('modal-open');
+  loadModal.classList.remove('hidden');
+  chooseFilters();
+  createSlider();
+  updateSlider();
+  scaleControlBigger.addEventListener('click', onValueIncreaseClick);
+  scaleControlSmaller.addEventListener('click', onValueDecreaseClick);
+  document.addEventListener('keydown', onLoadModalEscKeydown);
 });
 
 function closeLoadModal () {
@@ -74,9 +67,7 @@ const setUploadFormSubmit = () => {
       }
       throw new Error(`${response.status} — ${response.statusText}`);
     })
-      .catch((error) => {
-        // eslint-disable-next-line no-console
-        console.log(error);
+      .catch(() => {
         showErrorMessage();
       });
   });
