@@ -1,10 +1,10 @@
 import './thumbpicture.js';
 import './form.js';
-import './editImage.js';
-import './slider.js';
+import './scale.js';
 import {renderPhotos} from './thumbpicture.js';
 import {showLoadError} from './utils.js';
 import {setUploadFormSubmit} from './form.js';
+import './slider.js';
 
 
 setUploadFormSubmit();
