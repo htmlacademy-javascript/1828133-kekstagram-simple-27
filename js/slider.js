@@ -1,139 +1,125 @@
-const CHROME_SLIDER_SETTINGS = {
-  range: {
-    min: 0,
-    max: 1,
-  },
-  start: 1,
-  step: 0.1,
-};
-const SEPIA_SLIDER_SETTINGS = {
-  range: {
-    min: 0,
-    max: 1,
-  },
-  start: 1,
-  step: 0.1,
-};
-const MARVIN_SLIDER_SETTINGS = {
-  range: {
+const image = document.querySelector('.img-upload__preview img');
+const form = document.querySelector('.img-upload__form');
+const sliderElement = document.querySelector('.effect-level__slider');
+const effectLevel = document.querySelector('.effect-level__value');
+const sliderContainer = document.querySelector('.img-upload__effect-level');
+
+const EFFECTS = [
+  {
+    name: 'none',
     min: 0,
     max: 100,
+    start: 50,
+    step: 1
   },
-  start: 100,
-  step: 1,
-};
-const PHOBOS_SLIDER_SETTINGS = {
-  range: {
+  {
+    name: 'chrome',
+    style: 'grayscale',
+    min: 0,
+    max: 1,
+    start: 1,
+    step: 0.1,
+    unit: ''
+  },
+  {
+    name: 'sepia',
+    style: 'sepia',
+    min: 0,
+    max: 1,
+    start: 1,
+    step: 0.1,
+    unit: ''
+  },
+  {
+    name: 'marvin',
+    style: 'invert',
+    min: 0,
+    max: 100,
+    start: 100,
+    step: 1,
+    unit: '%'
+  },
+  {
+    name: 'phobos',
+    style: 'blur',
     min: 0,
     max: 3,
+    start: 3,
+    step: 0.1,
+    unit: 'px'
   },
-  start: 3,
-  step: 0.1,
-};
-const HEAT_SLIDER_SETTINGS = {
-  range: {
+  {
+    name: 'heat',
+    style: 'brightness',
     min: 1,
     max: 3,
-  },
-  start: 3,
-  step: 0.1,
+    start: 3,
+    step: 0.1,
+    unit: ''
+  }
+];
+
+const DEFAULT_EFFECT = EFFECTS[0];
+let choosenEffect = DEFAULT_EFFECT;
+
+const isDefault = () => choosenEffect === DEFAULT_EFFECT;
+
+const updateSlider = () => {
+  sliderContainer.classList.remove('hidden');
+  sliderElement.noUiSlider.updateOptions({
+    range: {
+      min: choosenEffect.min,
+      max: choosenEffect.max
+    },
+    step: choosenEffect.step,
+    start: choosenEffect.start
+  });
+  if (isDefault()) {
+    sliderContainer.classList.add('hidden');
+  }
 };
 
-const effectFieldset = document.querySelector('.img-upload__effect-level');
-const effectSlider = document.querySelector('.effect-level__slider');
-const effectValue = document.querySelector('.effect-level__value');
-const buttonEffectNone = document.getElementById('effect-none');
-const buttonEffectChrome = document.getElementById('effect-chrome');
-const buttonEffectSepia = document.getElementById('effect-sepia');
-const buttonEffectMarvin = document.getElementById('effect-marvin');
-const buttonEffectPhobos = document.getElementById('effect-phobos');
-const buttonEffectHeat = document.getElementById('effect-heat');
-const imgUploadPreview = document.querySelector('.img-upload__preview');
-const trueImg = imgUploadPreview.querySelector('img');
-
-const showSlider = () => {
-  effectSlider.classList.remove('hidden');
-  effectFieldset.classList.remove('hidden');
+const onFormChange = (evt) => {
+  if(!evt.target.classList.contains('effects__radio')) {
+    return;
+  }
+  choosenEffect = EFFECTS.find((effect) => effect.name === evt.target.value);
+  updateSlider();
 };
 
-const hideSlider = () => {
-  effectSlider.classList.add('hidden');
-  effectFieldset.classList.add('hidden');
-};
-
-const deleteSlider = () => {
-  effectSlider.noUiSlider.destroy();
+const onSliderUpdate = () => {
+  image.style.filter = 'none';
+  image.className = '';
+  effectLevel.value = '';
+  if (isDefault()) {
+    return;
+  }
+  const sliderValue = sliderElement.noUiSlider.get();
+  image.style.filter = `${choosenEffect.style}(${sliderValue}${choosenEffect.unit})`;
+  image.classList.add(`effects__preview--${choosenEffect.name}`);
+  effectLevel.value = sliderValue;
 };
 
 const createSlider = () => {
-  noUiSlider.create(effectSlider, {
+  noUiSlider.create(sliderElement, {
     range: {
-      min: 0,
-      max: 100,
+      min: DEFAULT_EFFECT.min,
+      max: DEFAULT_EFFECT.max
     },
-    start: 50,
-    step: 1,
-    connect: 'lower',
+    step: DEFAULT_EFFECT.step,
+    start: DEFAULT_EFFECT.start,
+    connect: 'lower'
   });
-  hideSlider();
+  updateSlider();
 };
 
-const updateSlider = () => {
-  effectSlider.noUiSlider.on('update', () => {
-    effectValue.value = effectSlider.noUiSlider.get();
-    effectValue.textContent = effectValue.value;
+createSlider();
+sliderElement.noUiSlider.on('update', onSliderUpdate);
+form.addEventListener('change', onFormChange);
 
-    if(trueImg.classList.contains('effects__preview--chrome')) {
-      trueImg .style.filter = `grayscale(${effectValue.value})`;
-    }
-    if(trueImg.classList.contains('effects__preview--sepia')) {
-      trueImg .style.filter = `sepia(${effectValue.value})`;
-    }
-    if(trueImg.classList.contains('effects__preview--marvin')) {
-      trueImg .style.filter = `invert(${effectValue.value}%)`;
-    }
-    if(trueImg.classList.contains('effects__preview--phobos')) {
-      trueImg .style.filter = `blur(${effectValue.value}px)`;
-    }
-    if(trueImg.classList.contains('effects__preview--heat')) {
-      trueImg .style.filter = `brightness(${effectValue.value})`;
-    }
-  });
+const resetEffects = () => {
+  choosenEffect = DEFAULT_EFFECT;
+  updateSlider();
 };
 
-buttonEffectNone.addEventListener('click', () => {
-  hideSlider();
-});
-
-buttonEffectChrome.addEventListener('click', () => {
-  showSlider();
-  effectSlider.noUiSlider.updateOptions(CHROME_SLIDER_SETTINGS);
-  trueImg .style.filter = `grayscale(${CHROME_SLIDER_SETTINGS.start})`;
-});
-
-buttonEffectSepia.addEventListener('click', () => {
-  showSlider();
-  effectSlider.noUiSlider.updateOptions(SEPIA_SLIDER_SETTINGS);
-  trueImg .style.filter = `sepia(${SEPIA_SLIDER_SETTINGS.start})`;
-});
-
-buttonEffectMarvin.addEventListener('click', () => {
-  showSlider();
-  effectSlider.noUiSlider.updateOptions(MARVIN_SLIDER_SETTINGS);
-  trueImg .style.filter = `invert(${MARVIN_SLIDER_SETTINGS.start})`;
-});
-
-buttonEffectPhobos.addEventListener('click', () => {
-  showSlider();
-  effectSlider.noUiSlider.updateOptions(PHOBOS_SLIDER_SETTINGS);
-  trueImg .style.filter = `blur(${PHOBOS_SLIDER_SETTINGS.start}px)`;
-});
-
-buttonEffectHeat.addEventListener('click', () => {
-  showSlider();
-  effectSlider.noUiSlider.updateOptions(HEAT_SLIDER_SETTINGS);
-  trueImg .style.filter = `brightness(${HEAT_SLIDER_SETTINGS.start})`;
-});
-
-
-export {createSlider, hideSlider, updateSlider, deleteSlider};
+export {resetEffects};
