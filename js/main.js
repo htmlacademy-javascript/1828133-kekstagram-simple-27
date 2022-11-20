@@ -1,7 +1,7 @@
-import './thumbpicture.js';
+import './thumb-picture.js';
 import './form.js';
 import './scale.js';
-import {renderPhotos} from './thumbpicture.js';
+import {renderPhotos} from './thumb-picture.js';
 import {showLoadError} from './utils.js';
 import {setUploadFormSubmit} from './form.js';
 import './slider.js';
