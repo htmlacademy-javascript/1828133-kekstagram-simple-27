@@ -4,7 +4,7 @@ const sliderElement = document.querySelector('.effect-level__slider');
 const effectLevel = document.querySelector('.effect-level__value');
 const sliderContainer = document.querySelector('.img-upload__effect-level');
 
-const EFFECTS = [
+const effects = [
   {
     name: 'none',
     min: 0,
@@ -59,10 +59,10 @@ const EFFECTS = [
   }
 ];
 
-const DEFAULT_EFFECT = EFFECTS[0];
-let choosenEffect = DEFAULT_EFFECT;
+const defaultEffect = effects[0];
+let choosenEffect = defaultEffect;
 
-const isDefault = () => choosenEffect === DEFAULT_EFFECT;
+const isDefault = () => choosenEffect === defaultEffect;
 
 const updateSlider = () => {
   sliderContainer.classList.remove('hidden');
@@ -83,7 +83,7 @@ const onFormChange = (evt) => {
   if(!evt.target.classList.contains('effects__radio')) {
     return;
   }
-  choosenEffect = EFFECTS.find((effect) => effect.name === evt.target.value);
+  choosenEffect = effects.find((effect) => effect.name === evt.target.value);
   updateSlider();
 };
 
@@ -103,11 +103,11 @@ const onSliderUpdate = () => {
 const createSlider = () => {
   noUiSlider.create(sliderElement, {
     range: {
-      min: DEFAULT_EFFECT.min,
-      max: DEFAULT_EFFECT.max
+      min: defaultEffect.min,
+      max: defaultEffect.max
     },
-    step: DEFAULT_EFFECT.step,
-    start: DEFAULT_EFFECT.start,
+    step: defaultEffect.step,
+    start: defaultEffect.start,
     connect: 'lower'
   });
   updateSlider();
@@ -118,7 +118,7 @@ sliderElement.noUiSlider.on('update', onSliderUpdate);
 form.addEventListener('change', onFormChange);
 
 const resetEffects = () => {
-  choosenEffect = DEFAULT_EFFECT;
+  choosenEffect = defaultEffect;
   updateSlider();
 };
 

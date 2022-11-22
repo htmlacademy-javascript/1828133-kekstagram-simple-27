@@ -16,7 +16,7 @@ const closeMessage = () => {
   banner.removeEventListener('click', onBannerBackClick);
 };
 
-// Тут сделал функцию а не конст, чтобы "всплыла наверх в closeSuccessMessage"
+// Тут сделал функцию а не конст, чтобы "всплыла наверх в closeMessage"
 function onDocumentKeydown (evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
