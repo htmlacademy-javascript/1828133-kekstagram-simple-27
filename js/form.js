@@ -15,7 +15,7 @@ const modalCloseButton = loadModal.querySelector('.img-upload__cancel');
 const imgUploadPreview = loadModal.querySelector('.img-upload__preview');
 const trueImage = imgUploadPreview.querySelector('img');
 
-const onLoadModalEscKeydown = (evt) => {
+const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt) && !document.querySelector('.error')) {
     evt.preventDefault();
     closeLoadModal();
@@ -27,7 +27,7 @@ uploadInput.addEventListener('change', () => {
   loadModal.classList.remove('hidden');
   scaleControlBigger.addEventListener('click', onValueIncreaseClick);
   scaleControlSmaller.addEventListener('click', onValueDecreaseClick);
-  document.addEventListener('keydown', onLoadModalEscKeydown);
+  document.addEventListener('keydown', onDocumentKeydown);
 });
 
 function closeLoadModal () {
@@ -36,7 +36,7 @@ function closeLoadModal () {
   resetEffects();
   uploadForm.reset();
   trueImage .style.scale = 1;
-  document.removeEventListener('keydown', onLoadModalEscKeydown);
+  document.removeEventListener('keydown', onDocumentKeydown);
   scaleControlBigger.removeEventListener('click', onValueIncreaseClick);
   scaleControlSmaller.removeEventListener('click', onValueDecreaseClick);
 }
@@ -45,29 +45,27 @@ modalCloseButton.addEventListener('click', () => {
   closeLoadModal();
 });
 
-const setUploadFormSubmit = () => {
-  uploadForm.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    const formData = new FormData(evt.target);
+uploadForm.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  const formData = new FormData(evt.target);
 
-    fetch (
-      'https://27.javascript.pages.academy/kekstagram-simple',
-      {
-        method: 'POST',
-        body: formData,
-      },
-    ).then((response) => {
-      if (response.ok) {
-        closeLoadModal();
-        showMessage(SUCCESS_MESSAGE);
-        return(response);
-      }
-      throw new Error(`${response.status} — ${response.statusText}`);
-    })
-      .catch(() => {
-        showMessage(ERROR_MESSAGE);
-      });
-  });
-};
+  fetch (
+    'https://27.javascript.pages.academy/kekstagram-simple',
+    {
+      method: 'POST',
+      body: formData,
+    },
+  ).then((response) => {
+    if (response.ok) {
+      closeLoadModal();
+      showMessage(SUCCESS_MESSAGE);
+      return(response);
+    }
+    throw new Error(`${response.status} — ${response.statusText}`);
+  })
+    .catch(() => {
+      showMessage(ERROR_MESSAGE);
+    });
+});
 
-export {setUploadFormSubmit, onLoadModalEscKeydown};
+export {onDocumentKeydown};
