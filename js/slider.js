@@ -60,19 +60,19 @@ const effects = [
 ];
 
 const defaultEffect = effects[0];
-let choosenEffect = defaultEffect;
+let chosenEffect = defaultEffect;
 
-const isDefault = () => choosenEffect === defaultEffect;
+const isDefault = () => chosenEffect === defaultEffect;
 
 const updateSlider = () => {
   sliderContainer.classList.remove('hidden');
   sliderElement.noUiSlider.updateOptions({
     range: {
-      min: choosenEffect.min,
-      max: choosenEffect.max
+      min: chosenEffect.min,
+      max: chosenEffect.max
     },
-    step: choosenEffect.step,
-    start: choosenEffect.start
+    step: chosenEffect.step,
+    start: chosenEffect.start
   });
   if (isDefault()) {
     sliderContainer.classList.add('hidden');
@@ -83,7 +83,7 @@ const onFormChange = (evt) => {
   if(!evt.target.classList.contains('effects__radio')) {
     return;
   }
-  choosenEffect = effects.find((effect) => effect.name === evt.target.value);
+  chosenEffect = effects.find((effect) => effect.name === evt.target.value);
   updateSlider();
 };
 
@@ -95,8 +95,8 @@ const onSliderUpdate = () => {
     return;
   }
   const sliderValue = sliderElement.noUiSlider.get();
-  image.style.filter = `${choosenEffect.style}(${sliderValue}${choosenEffect.unit})`;
-  image.classList.add(`effects__preview--${choosenEffect.name}`);
+  image.style.filter = `${chosenEffect.style}(${sliderValue}${chosenEffect.unit})`;
+  image.classList.add(`effects__preview--${chosenEffect.name}`);
   effectLevel.value = sliderValue;
 };
 
@@ -118,7 +118,7 @@ sliderElement.noUiSlider.on('update', onSliderUpdate);
 form.addEventListener('change', onFormChange);
 
 const resetEffects = () => {
-  choosenEffect = defaultEffect;
+  chosenEffect = defaultEffect;
   updateSlider();
 };
 
